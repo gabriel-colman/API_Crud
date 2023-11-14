@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Atualizar Usuário</title>
+    <a href="listar.html">Listar Usuários</a>
+    <style>
+         a {
+            float: right;
+            display: block;
+            width: 10%;
+            padding: 10px;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            background-color: #00ff48;
+            border-radius: 5px;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+        form {
+            width: 80%;
+            margin: 20px auto;
+        }
+        label {
+            display: block;
+            margin-top: 20px;
+        }
+        input[type=text] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <h1>Atualizar Usuário</h1>
+
+    <form id="usuarioForm">
+        <label for="id">ID:</label><br>
+        <input type="text" id="id" name="id"><br>
+
+        <label for="nome">Nome:</label><br>
+        <input type="text" id="nome" name="nome"><br>
+
+        <label for="email">Email:</label><br>
+        <input type="text" id="email" name="email"><br>
+
+        <input type="submit" value="Atualizar">
+    </form>
+
+    <script>
+        // Use fetch para enviar os dados do formulário para a API quando o formulário for enviado
+        document.getElementById('usuarioForm').addEventListener('submit', function(event) { // quando o formulário for enviado
+            event.preventDefault(); // previne o comportamento padrão do formulário
+
+            const id = document.getElementById('id').value; // pega o valor do campo id
+            const nome = document.getElementById('nome').value; // pega o valor do campo nome
+            const email = document.getElementById('email').value; // pega o valor do campo email
+
+            fetch(`/api/data/${id}`, {   // envia os dados do formulário para a API
+                method: 'PUT', // método HTTP usado
+                headers: { // cabeçalho
+                    'Content-Type': 'application/json', // tipo de conteúdo JSON
+                },
+                body: JSON.stringify({ nome, email }), // transforma os dados do formulário em JSON
+            })
+            .then(response => response.json()) // transforma a resposta em JSON
+            .then(data => { // pega os dados
+                alert(`Usuário atualizado com sucesso: ${data.nome}`); // exibe um alerta com o nome do usuário atualizado
+            });
+        });
+    </script>
+</body>
+</html>
